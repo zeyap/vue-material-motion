@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
 dist/
-lib/
+example/
 npm-debug.log
 yarn-error.log
 .npmignore
