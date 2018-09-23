@@ -1,13 +1,10 @@
-A material design UI library built with Vue.js for my personal website
+# Vue-Material
+
+A material design UI library built with Vue.js for personal website
 
 TODO:
 
-* Tweening / fade background
-
-* Image cards
-
-* Round buttons
-
-* Skills display
-
-* Loading effect
+- [x] Tweening container
+- [ ] Round buttons with shared transformation
+- [ ] Skills display
+- [ ] Loading effect
