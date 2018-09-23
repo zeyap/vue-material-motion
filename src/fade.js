@@ -7,13 +7,13 @@ export default class Fade{
         this.additionalTransition = transition;
         switch(type){
             case 'fade-through':
-            this.fadeOutTime = "0.2s linear 0.2s";
-            this.fadeInTime = "0.2s";
-            break;
+                this.fadeOutTime = "0.2s";
+                this.fadeInTime = "0.2s linear 0.2s";
+                break;
             default://cross-dissolve
-            this.fadeOutTime = "0.4s";
-            this.fadeInTime = "0.4s";
-            break;
+                this.fadeOutTime = "0.4s";
+                this.fadeInTime = "0.4s";
+                break;
         }
         let self = this;
         this.setSpeed = this.setSpeed.bind(self);
@@ -44,9 +44,8 @@ export default class Fade{
         }
     }
     setSpeed(){
-            this.out.style.transition = "opacity "+this.fadeOutTime+", "+this.additionalTransition.out;
-            this.in.style.transition = "opacity "+this.fadeInTime+", "+this.additionalTransition.in;
-        
+        this.out.style.transition = "opacity "+this.fadeOutTime+", "+this.additionalTransition.out;
+        this.in.style.transition = "opacity "+this.fadeInTime+", "+this.additionalTransition.in;
     }
     getState(){
         return this.out.style.opacity != "0"?0:1;

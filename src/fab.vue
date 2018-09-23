@@ -41,7 +41,10 @@ export default {
       in:"transform 0.4s"
     });
     [this.setSpeed, this.setStateBefore, this.setStateAfter, this.getState]
-     = [anim.setSpeed,
+     = [function(){
+       anim.setSpeed();
+       this.setStateBefore();
+     },
      function(){
        anim.setStateBefore();
        this.icon_out.style.transform = "rotate(0)";
