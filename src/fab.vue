@@ -36,7 +36,7 @@ export default {
   mounted(){
     this.icon_out = this.$refs.icon_out;
     this.icon_in = this.$refs.icon_in;
-    let anim= new Fade(this.icon_out,this.icon_in,'fade',{
+    let anim= new Fade(this.icon_out,this.icon_in,'fade-through',{
       out:"transform 0.4s",
       in:"transform 0.4s"
     });

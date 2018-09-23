@@ -84,8 +84,8 @@ body{
   position: absolute;
   border-radius: 50%;
   transition-property: width, height, border-radius;
-  transition-duration: 0.5s, 0.5s, 0.15s;
-  transition-delay: 0s, 0s, 0.35s;
+  transition-duration: 0.4s, 0.4s, 0.1s;
+  transition-delay: 0s, 0s, 0.3s;
   pointer-events: auto;
 }
 
