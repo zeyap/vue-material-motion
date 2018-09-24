@@ -6,7 +6,10 @@
     <div ref="icon_in" class="fab-icon in">
       <v-icon name="times"/>
     </div>
+    <div ref="tooltip0" class="tooltip" v-bind:style="'color:'+color"><B><slot></slot></B></div>
+    <div ref="tooltip1" class="tooltip"/>
   </div>
+  
 </template>
 
 <script>
@@ -29,6 +32,7 @@ export default {
       if(this.getState()===0){//clockwise
       // console.log('clockwise')
         this.setStateAfter();
+        window.setTimeout(this.rotate,1500);
       }else{//counter
       // console.log('counter')
         this.setStateBefore();
@@ -36,6 +40,7 @@ export default {
     },
   },
   mounted(){
+    //animation of button
     let fab= this.$refs.fab;
     if(this.border=='true'){
       fab.style.border="solid 2px #ffffff";
@@ -49,6 +54,15 @@ export default {
       }
     }
     
+    this.tooltip = this.$refs.tooltip0;
+    //animation of tooltip
+     let tooltipAnim = new Fade(this.$refs.tooltip1,this.$refs.tooltip0,'fade-through',{
+       out:"left 0.4s",
+       in:"left 0.4s"
+     });
+     [this.setTooltipBefore, this.setTooltipAfter]=[
+       tooltipAnim.setStateBefore, tooltipAnim.setStateAfter
+     ]
     
     fab.style.background = this.color||'blueviolet';
     this.icon_out = this.$refs.icon_out;
@@ -66,14 +80,24 @@ export default {
        anim.setStateBefore();
        this.icon_out.style.transform = "rotate(0)";
        this.icon_in.style.transform = "rotate(-0.25turn)";
+     
+       this.tooltip.style.left = "0";
+
+       this.setTooltipBefore();
      },
      function(){
        anim.setStateAfter();
        this.icon_out.style.transform = "rotate(0.25turn)";
       this.icon_in.style.transform = "rotate(0)";
+
+      this.tooltip.style.left = "84px";
+      
+      this.setTooltipAfter();
      },
      anim.getState];
      this.setSpeed();
+    //  this.setTooltipSpeed();
+     
      
   }
 
@@ -105,6 +129,18 @@ export default {
   flex-flow:row nowrap;
   justify-content: center;
   align-items: center;
+}
+
+.tooltip{
+  position: absolute;
+  transition:opacity 0.2s, transform 0.4s;
+  transition-delay: 0.2s, 0s;
+  min-width: 300px;
+  text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;  
 }
 
 </style>
