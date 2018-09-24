@@ -1,9 +1,9 @@
 <template>
-  <div class="fab" v-on:click="rotate">
-    <div ref="icon_out" class="fa-icon out">
+  <div class="fab" ref="fab" v-on:click="rotate">
+    <div ref="icon_out" class="fab-icon out">
       <v-icon name="bars"/>
     </div>
-    <div ref="icon_in" class="fa-icon in">
+    <div ref="icon_in" class="fab-icon in">
       <v-icon name="times"/>
     </div>
   </div>
@@ -20,7 +20,9 @@ export default {
     'v-icon': Icon
   },
   props:{
-
+    color: String,
+    border: String,
+    position: Object
   },
   methods: {
     rotate(){
@@ -34,6 +36,21 @@ export default {
     },
   },
   mounted(){
+    let fab= this.$refs.fab;
+    if(this.border=='true'){
+      fab.style.border="solid 2px #ffffff";
+    }
+    if(this.position){
+      if(this.position.left){
+        fab.style.left = this.position.left;
+      }
+      if(this.position.top){
+        fab.style.top = this.position.top;
+      }
+    }
+    
+    
+    fab.style.background = this.color||'blueviolet';
     this.icon_out = this.$refs.icon_out;
     this.icon_in = this.$refs.icon_in;
     let anim= new Fade(this.icon_out,this.icon_in,'fade-through',{
@@ -71,8 +88,7 @@ export default {
   background: blueviolet;
   border-radius: 50%;
   position: absolute;
-  top: 0px;
-
+  
   display: flex;
   flex-flow:row nowrap;
   justify-content: center;
@@ -80,10 +96,15 @@ export default {
 
   color: white;
 }
-.fa-icon{
+.fab-icon{
   position: absolute;
   height: 18px;
   width: 18px;
+
+  display: flex;
+  flex-flow:row nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>
