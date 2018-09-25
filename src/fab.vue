@@ -6,7 +6,7 @@
     <div ref="icon_in" class="fab-icon in">
       <v-icon name="times"/>
     </div>
-    <div ref="tooltip0" class="tooltip" v-bind:style="'color:'+color"><B><slot></slot></B></div>
+    <div ref="tooltip0" class="tooltip" v-bind:style="'color:'+color"><slot></slot></div>
     <div ref="tooltip1" class="tooltip"/>
   </div>
   
@@ -27,12 +27,17 @@ export default {
     border: String,
     position: Object
   },
+  data(){
+    return {
+      
+    };
+  },
   methods: {
     rotate(){
       if(this.getState()===0){//clockwise
       // console.log('clockwise')
         this.setStateAfter();
-        window.setTimeout(this.rotate,1500);
+        
       }else{//counter
       // console.log('counter')
         this.setStateBefore();
@@ -136,11 +141,11 @@ export default {
   transition:opacity 0.2s, transform 0.4s;
   transition-delay: 0.2s, 0s;
   min-width: 300px;
-  text-shadow:
+  /* text-shadow:
     -1px -1px 0 #fff,
     1px -1px 0 #fff,
     -1px 1px 0 #fff,
-    1px 1px 0 #fff;  
+    1px 1px 0 #fff;   */
 }
 
 </style>

@@ -1,11 +1,14 @@
 <template>
   <div ref ="container" class="tween-container">
-    <div v-for="item in btnList" v-bind:key="item" ref="roundButton" class="tween-button" v-on:click="expand(item)"></div>
+    <div v-for="(item,id) in btnList" v-bind:key="id" ref="roundButton" class="tween-button" 
+    v-on:click="expand(item)" v-on:mouseover="on_mouseover_fns[id]"><router-link v-bind:to="urls[id]"><div ref="roundButtonLink"></div></router-link></div>
+    
     <div class="tween-slot"><slot></slot></div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'TweenWrapper',
   props:{
@@ -13,7 +16,9 @@ export default {
     position: Object,
     radius: String,
     button_number: String,
-    border: String
+    border: String,
+    urls: Array,
+    on_mouseover_fns: Array
   },
   data(){
     return {
@@ -54,7 +59,6 @@ export default {
       
     },
     reduce(i){
-      this.btn[i] = this.$refs.roundButton[i];
       this.btn[i].style.background = this.color===undefined?'blueviolet':this.color[i];
       this.btn[i].style.width=this.radius||"65px";
       this.btn[i].style.height=this.radius||"65px";
@@ -76,10 +80,17 @@ export default {
     }
 
   },
+  created(){
+    this.on_mouseover_fns = this.on_mouseover_fns||[];
+  },
   mounted(){
+    
     let len = parseInt(this.button_number);
     this.btn=[];
     for(let i=0;i<len;i++){
+      let radius =this.radius||"65px"
+      this.$refs.roundButtonLink[i].style="width:"+radius+"; height: "+radius;
+      this.btn[i] = this.$refs.roundButton[i];
       this.reduce(i);
     }
   }
