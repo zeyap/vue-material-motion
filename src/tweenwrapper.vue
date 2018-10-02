@@ -55,6 +55,10 @@ export default {
       btn.style.transform ="translateX(0) translateY(0)";
       btn.style.border="none";
 
+      btn.style['transition-property']= 'width, height, border-radius, transform, border';
+      btn.style['transition-duration']= '0.5s, 0.5s, 0.1s, 0.5s, 0.5s';
+      btn.style['transition-delay']= '0s, 0s, 1s, 0s, 0.5s';
+
       this.$refs.container.style.background = this.color===undefined?'blueviolet':this.color[id];
       
     },
@@ -63,13 +67,23 @@ export default {
       this.btn[i].style.width=this.radius||"65px";
       this.btn[i].style.height=this.radius||"65px";
       this.btn[i].style["border-radius"]="50%";
-      if(this.position&&this.position.bottom){
-        this.btn[i].style.transform = "translateX("+parseInt(this.spacing)*(2*i-(parseInt(this.button_number)-1))+"px)"
-      +"translateY(calc(50vh - "+this.position.bottom+"))";
-      }else if(this.position&&this.position.top){
-        this.btn[i].style.transform = "translateX("+parseInt(this.spacing)*(2*i-(parseInt(this.button_number)-1))+"px)"
-      +"translateY(calc(-50vh + "+this.position.top+"))"
+      let x,y;
+      x = parseInt(this.spacing)*(2*i-(parseInt(this.button_number)-1))+"px";
+      if(this.position&&this.position.left){
+        let totallen = parseInt(this.position.left) + parseInt(this.spacing)*(2*i+1/2);
+        x="calc(-50vw + "+totlalen+"px)";
+        
+      }else if(this.position&&this.position.right){
+        let totallen = parseInt(this.position.right) + parseInt(this.spacing)*(2*(parseInt(this.button_number)-i-1)+1/2);
+        x="calc(50vw - "+totallen+"px)";
       }
+      console.log(x)
+      if(this.position&&this.position.bottom){
+        y = "calc(50vh - "+this.position.bottom+")";
+      }else if(this.position&&this.position.top){
+        y = "calc(-50vh + "+this.position.top+")";
+      }
+      this.btn[i].style.transform = "translateX("+x+") "+"translateY("+y+")";
       
       if(this.border=="true"){
         if(this.color[i]!=='#ffffff')
@@ -77,6 +91,10 @@ export default {
         else
           this.btn[i].style.border="solid 2px #dddddd";
       }
+
+      this.btn[i].style['transition-property']= 'width, height, border-radius, transform, border';
+      this.btn[i].style['transition-duration']= '0s, 0s, 0s, 0s, 0s';
+      this.btn[i].style['transition-delay']= '0s, 0s, 0s, 0s, 0s';
     }
 
   },
@@ -111,7 +129,9 @@ body{
 
   width: 100%;
   height: 100vh;
-  transition-delay: 0.4s;
+  
+  transition: background 0.5s;
+  transition-delay: 0s;
 
   display: flex;
   flex-flow: row wrap;
@@ -123,9 +143,6 @@ body{
 .tween-button{
   background: blueviolet;
   position: absolute;
-  transition-property: width, height, border-radius, transform, border;
-  transition-duration: 0.4s, 0.4s, 0.1s, 0.4s, 0s;
-  transition-delay: 0s, 0s, 0.3s, 0s, 0.4s;
   pointer-events: auto;
 }
 

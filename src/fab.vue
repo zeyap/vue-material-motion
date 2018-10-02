@@ -1,10 +1,10 @@
 <template>
   <div class="fab" ref="fab" v-on:click="rotate">
     <div ref="icon_out" class="fab-icon out">
-      <v-icon name="bars"/>
+      <v-icon v-bind:name="name"/>
     </div>
     <div ref="icon_in" class="fab-icon in">
-      <v-icon name="times"/>
+      <v-icon v-bind:name="name_after"/>
     </div>
     <div ref="tooltip0" class="tooltip" v-bind:style="'color:'+color"><slot></slot></div>
     <div ref="tooltip1" class="tooltip"/>
@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import 'vue-awesome/icons/times'
-import 'vue-awesome/icons/bars'
+import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import Fade from '../src/fade.js'
+import { setTimeout } from 'timers';
 export default {
   name: 'FAB',
   components: {
@@ -25,7 +25,9 @@ export default {
   props:{
     color: String,
     border: String,
-    position: Object
+    position: Object,
+    name: String,
+    name_after: String
   },
   data(){
     return {
@@ -35,11 +37,15 @@ export default {
   methods: {
     rotate(){
       if(this.getState()===0){//clockwise
-      // console.log('clockwise')
         this.setStateAfter();
+        this.$refs.fab.style['pointer-events'] = 'none';
+        setTimeout((function(){
+
+          this.rotate();
+          this.$refs.fab.style['pointer-events'] = 'auto';
+        }).bind(this),1000)
         
       }else{//counter
-      // console.log('counter')
         this.setStateBefore();
       }
     },
@@ -53,9 +59,13 @@ export default {
     if(this.position){
       if(this.position.left){
         fab.style.left = this.position.left;
+      }else if(this.position.right){
+        fab.style.right = this.position.right;
       }
       if(this.position.top){
         fab.style.top = this.position.top;
+      }else if(this.position.bottom){
+        fab.style.bottom = this.position.bottom;
       }
     }
     
@@ -85,17 +95,27 @@ export default {
        anim.setStateBefore();
        this.icon_out.style.transform = "rotate(0)";
        this.icon_in.style.transform = "rotate(-0.25turn)";
-     
+     if(this.position.left){
        this.tooltip.style.left = "0";
+     }else{
+       this.tooltip.style.right = "0";
+     }
+       
+       this.tooltip.style['pointer-events'] = 'none';
 
        this.setTooltipBefore();
      },
      function(){
        anim.setStateAfter();
-       this.icon_out.style.transform = "rotate(0.25turn)";
+      this.icon_out.style.transform = "rotate(0.25turn)";
       this.icon_in.style.transform = "rotate(0)";
-
-      this.tooltip.style.left = "84px";
+      if(this.position.left){
+        this.tooltip.style.left = "84px";
+      }else{
+        this.tooltip.style.right = "84px";
+      }
+      
+      this.tooltip.style['pointer-events'] = 'auto';
       
       this.setTooltipAfter();
      },
@@ -141,11 +161,6 @@ export default {
   transition:opacity 0.2s, transform 0.4s;
   transition-delay: 0.2s, 0s;
   min-width: 300px;
-  /* text-shadow:
-    -1px -1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px 1px 0 #fff;   */
 }
 
 </style>
