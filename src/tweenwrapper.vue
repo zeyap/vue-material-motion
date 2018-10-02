@@ -58,8 +58,9 @@ export default {
       btn.style['transition-property']= 'width, height, border-radius, transform, border';
       btn.style['transition-duration']= '0.5s, 0.5s, 0.1s, 0.5s, 0.5s';
       btn.style['transition-delay']= '0s, 0s, 1s, 0s, 0.5s';
+      btn.style['z-index'] = 0;
 
-      this.$refs.container.style.background = this.color===undefined?'blueviolet':this.color[id];
+      document.body.style.background = this.color===undefined?'blueviolet':this.color[id];
       
     },
     reduce(i){
@@ -67,6 +68,7 @@ export default {
       this.btn[i].style.width=this.radius||"65px";
       this.btn[i].style.height=this.radius||"65px";
       this.btn[i].style["border-radius"]="50%";
+      
       let x,y;
       x = parseInt(this.spacing)*(2*i-(parseInt(this.button_number)-1))+"px";
       if(this.position&&this.position.left){
@@ -95,6 +97,8 @@ export default {
       this.btn[i].style['transition-property']= 'width, height, border-radius, transform, border';
       this.btn[i].style['transition-duration']= '0s, 0s, 0s, 0s, 0s';
       this.btn[i].style['transition-delay']= '0s, 0s, 0s, 0s, 0s';
+
+      this.btn[i].style['z-index'] = 2;
     }
 
   },
@@ -120,7 +124,8 @@ body{
   /* background: beige; */
   margin: 0;
   /* height: 100%; */
-  
+  transition: background 0.5s;
+  transition-delay: 0s;
 }
 
 .tween-container{
@@ -129,9 +134,6 @@ body{
 
   width: 100%;
   height: 100vh;
-  
-  transition: background 0.5s;
-  transition-delay: 0s;
 
   display: flex;
   flex-flow: row wrap;
